@@ -69,28 +69,10 @@ export function NewPasswordForm({ token }: NewPasswordFormProps) {
   const ValidationItem = ({ isValid, text }: IValidationItem) => (
     <div className="flex w-fit items-center gap-2">
       <div
-        className={`w-4 h-4 rounded-full flex items-center justify-center ${
+        className={`size-2 rounded-full flex items-center justify-center ${
           isValid ? "bg-green-500" : "bg-gray-300"
         }`}
-      >
-        {isValid && (
-          <svg
-            width="10"
-            height="8"
-            viewBox="0 0 10 8"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M1 3.5L3.5 6L9 1"
-              stroke="white"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        )}
-      </div>
+      />
       <span className="text-sm text-gray-600">{text}</span>
     </div>
   );
@@ -153,7 +135,7 @@ export function NewPasswordForm({ token }: NewPasswordFormProps) {
           </FormField>
 
           {password.length > 0 && (
-            <div className="flex flex-wrap gap-2 w-full mb-2">
+            <div className="flex p-2 flex-wrap w-full mb-2 gap-[12px_24px] rounded-[8px] border border-[#E4E4E7]">
               <ValidationItem
                 isValid={passwordValidation.minLength}
                 text="Mínimo de 8 caracteres"

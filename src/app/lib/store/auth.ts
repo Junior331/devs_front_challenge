@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 
 interface User {
   id: string;
-  email: string;
+  email?: string;
 }
 
 interface AuthState {

@@ -1,14 +1,16 @@
 'use client';
 
 import { useAtom } from 'jotai';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { useRouter } from 'next/navigation';
 import { Button } from '@/app/components/atoms';
 import { authAtom } from '@/app/lib/store/auth';
+import { useUserSession } from '@/app/hooks/use-user-session';
 
 export default function WelcomePage() {
   const router = useRouter();
+  const { supabase } = useUserSession();
   const [auth, setAuth] = useAtom(authAtom);
 
   useEffect(() => {
@@ -17,15 +19,18 @@ export default function WelcomePage() {
     }
   }, [auth.isAuthenticated, router]);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(async () => {
+    await supabase.auth.signOut();
+    router.push('/auth/login');
+
     setAuth({
       user: null,
       token: null,
       isLoading: false,
       isAuthenticated: false,
     });
-    router.push('/auth/login');
-  };
+  }, [router, supabase, setAuth]);
+
 
   if (!auth.isAuthenticated) {
     return null;
@@ -40,7 +45,7 @@ export default function WelcomePage() {
         <p className="text-lg text-gray-600">
           Você está logado como {auth.user?.email}
         </p>
-        <Button onClick={handleLogout} variant="outline">
+        <Button onClick={handleLogout} className="flex items-center justify-center min-w-[240px] m-auto cursor-pointer">
           Sair
         </Button>
       </div>

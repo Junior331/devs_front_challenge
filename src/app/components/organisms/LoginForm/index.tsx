@@ -1,23 +1,36 @@
-import { useAtom } from "jotai";
-import { useState } from "react";
+"use client";
+
+import Link from "next/link";
 import toast from "react-hot-toast";
+import { useFormState } from "react-dom";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { authApi } from "@/app/lib/api/auth";
-import { authAtom } from "@/app/lib/store/auth";
+import { LoginState } from "@/app/auth/login/@types";
+import { authenticate, getSession } from "@/app/auth/login/actions";
+import { useUserSession } from "@/app/hooks/use-user-session";
 import { loginSchema, LoginFormValues } from "@/app/lib/validations/auth";
-import Link from "next/link";
+import { useAtom } from "jotai";
+import { authAtom } from "@/app/lib/store/auth";
+
+const initialState: LoginState = {
+  success: null,
+  message: "",
+};
 
 export function LoginForm() {
   const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [auth, setAuth] = useAtom(authAtom);
+  const { user, supabase } = useUserSession();
   const [showPassword, setShowPassword] = useState(false);
+  const [state, formAction] = useFormState(authenticate, initialState);
 
-  console.log(auth);
+  console.log(supabase);
+  console.log(user);
 
   const {
     register,
@@ -27,39 +40,47 @@ export function LoginForm() {
     resolver: zodResolver(loginSchema),
   });
 
-  const loginMutation = useMutation({
-    mutationFn: authApi.login,
-    onSuccess: async (data) => {
-      setAuth({
-        user: data.user,
-        token: data.token,
-        isAuthenticated: true,
-        isLoading: false,
-      });
+  const getInfoSession = async () => {
+    const session = await getSession();
+    console.log("session ::", session);
+    if (!session) return;
+    
+    setAuth({
+      user: session?.user || null,
+      token: session?.access_token || null,
+      isLoading: false,
+      isAuthenticated: true,
+    });
+  };
 
-      try {
-        await authApi.validateSession(data.token);
-        toast.success("Login realizado com sucesso!");
-        router.push("/welcome");
-      } catch {
-        toast.error("Sessão inválida. Por favor, faça login novamente.");
-        setAuth({
-          user: null,
-          token: null,
-          isAuthenticated: false,
-          isLoading: false,
-        });
-      }
-    },
-    onError: (error: Error) => {
+  // Efeito para lidar com o resultado da autenticação
+  useEffect(() => {
+    if (state.success === true) {
+      toast.success(state.message || "Login realizado com sucesso!");
+
+      getInfoSession();
+
+      router.push("/welcome");
+    } else if (state.success === false) {
       toast.error(
-        error.message || "Falha ao fazer login. Verifique suas credenciais."
+        state.message || "Falha ao fazer login. Verifique suas credenciais."
       );
-    },
-  });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, router, user]);
+
+  useEffect(() => {
+    getInfoSession();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, user]);
 
   const onSubmit = (data: LoginFormValues) => {
-    loginMutation.mutate(data);
+    const formData = new FormData();
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("authType", "login");
+
+    formAction(formData);
   };
 
   return (
@@ -76,7 +97,7 @@ export function LoginForm() {
           type="email"
           autoComplete="email"
           {...register("email")}
-          className={`flex p-2 px-3 justify-between items-center self-stretch rounded-md border bg-white text-zinc-400 font-['Segoe_UI'] text-[16px] font-normal leading-6`}
+          className={`flex p-2 px-3 justify-between items-center self-stretch rounded-md border bg-white text-black font-['Segoe_UI'] text-[16px] font-normal leading-6`}
           placeholder="Digite seu email"
         />
         {errors.email && (
@@ -97,7 +118,7 @@ export function LoginForm() {
             type={showPassword ? "text" : "password"}
             autoComplete="current-password"
             {...register("password")}
-            className={`w-full flex p-2 px-3 justify-between items-center self-stretch rounded-md border bg-white text-zinc-400 font-['Segoe_UI'] text-[16px] font-normal leading-6`}
+            className={`w-full flex p-2 px-3 justify-between items-center self-stretch rounded-md border bg-white text-black font-['Segoe_UI'] text-[16px] font-normal leading-6`}
             placeholder="Digite sua senha"
           />
           <button
@@ -145,11 +166,17 @@ export function LoginForm() {
       </div>
 
       <button
-        type={loginMutation.isPending ? "button" : "submit"}
-        disabled={loginMutation.isPending}
-        className="flex p-5 justify-center items-center gap-2.5 self-stretch rounded-lg bg-blue-500 text-white font-['Segoe_UI'] text-[16px] font-medium mt-4 hover:bg-blue-600 transition-colors"
+        type={
+          state.success === null && state.message === "Authenticating..."
+            ? "button"
+            : "submit"
+        }
+        disabled={
+          state.success === null && state.message === "Authenticating..."
+        }
+        className="flex cursor-pointer py-4 justify-center items-center gap-2.5 self-stretch rounded-lg bg-blue-500 text-white font-['Segoe_UI'] text-[16px] font-medium mt-4 hover:bg-blue-600 transition-colors"
       >
-        {loginMutation.isPending ? (
+        {state.success === null && state.message === "Authenticating..." ? (
           <div className="flex items-center justify-center">
             <svg
               className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
@@ -174,7 +201,24 @@ export function LoginForm() {
             Entrando...
           </div>
         ) : (
-          "Entrar"
+          <div className="flex items-center justify-center gap-2">
+            <svg
+              width="16"
+              height="17"
+              viewBox="0 0 16 17"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10 2.5H12.6667C13.0203 2.5 13.3594 2.64048 13.6095 2.89052C13.8595 3.14057 14 3.47971 14 3.83333V13.1667C14 13.5203 13.8595 13.8594 13.6095 14.1095C13.3594 14.3595 13.0203 14.5 12.6667 14.5H10M6.66667 11.8333L10 8.5M10 8.5L6.66667 5.16667M10 8.5H2"
+                stroke="white"
+                strokeWidth="1.33333"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Entrar
+          </div>
         )}
       </button>
     </form>

@@ -40,7 +40,7 @@ export default function LoginPage() {
               Acesse sua conta e gerenciar sua empresa
             </p>
             <span className="text-black font-['Segoe_UI'] text-[16px] font-normal">
-              Não possui uma conta?
+              Não possui uma conta? {" "}
               <a
                 href="#"
                 className="text-blue-500 font-['Segoe_UI'] text-[16px] font-normal"

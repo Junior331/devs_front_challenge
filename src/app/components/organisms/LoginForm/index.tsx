@@ -101,7 +101,7 @@ export function LoginForm() {
         )}
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 mt-3">
         <label
           htmlFor="password"
           className="text-zinc-900 font-['Segoe_UI'] text-[14px] font-normal leading-5"

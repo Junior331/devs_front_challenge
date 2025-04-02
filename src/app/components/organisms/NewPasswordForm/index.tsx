@@ -109,7 +109,7 @@ export function NewPasswordForm({ token }: NewPasswordFormProps) {
   );
 
   return (
-    <div className="flex max-w-[800px] w-full p-16 flex-col m-auto items-center gap-6 flex-shrink-0 rounded-[24px] border border-slate-300 bg-[rgba(250,250,250,0.75)] backdrop-blur-[4px]">
+    <div className="flex max-w-[800px] w-full py-16 px-2 md:px-16 flex-col m-auto items-center gap-6 flex-shrink-0 rounded-[24px] border border-slate-300 bg-[rgba(250,250,250,0.75)] backdrop-blur-[4px]">
       <div className="flex items-center flex-col m-auto ">
         <div className="flex w-[100px] h-[100px] flex-col justify-center items-center aspect-square rounded-full bg-black">
           <svg

@@ -2,7 +2,7 @@ import { tv } from 'tailwind-variants';
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 const buttonStyles = tv({
-  base: 'rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2',
+  base: 'rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer',
   variants: {
     variant: {
       primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',

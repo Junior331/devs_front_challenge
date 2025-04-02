@@ -39,15 +39,14 @@ export default function LoginPage() {
             <p className="text-[24px] text-zinc-500 font-['Segoe_UI'] font-normal">
               Acesse sua conta e gerenciar sua empresa
             </p>
-            <span className="text-black font-['Segoe_UI'] text-[16px] font-normal">
+            <p className="text-black font-['Segoe_UI'] text-[16px] font-normal">
               Não possui uma conta? {" "}
-              <a
-                href="#"
-                className="text-blue-500 font-['Segoe_UI'] text-[16px] font-normal"
+              <span
+                className="text-blue-500 font-['Segoe_UI'] text-[16px] font-normal cursor-not-allowed"
               >
                 Cadastrar
-              </a>
-            </span>
+              </span>
+            </p>
           </div>
           <LoginForm />
         </div>

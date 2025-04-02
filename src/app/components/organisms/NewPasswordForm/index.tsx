@@ -59,7 +59,7 @@ export function NewPasswordForm({ token }: NewPasswordFormProps) {
 
   const updatePasswordMutation = useMutation({
     mutationFn: (password: string) =>
-      authApi.updatePassword({ token, email, password }),
+      authApi.updatePassword({ token, password }),
     onSuccess: () => {
       toast.success("Senha atualizada com sucesso!");
       router.push("/auth/login");

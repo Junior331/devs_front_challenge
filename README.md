@@ -56,7 +56,7 @@ yarn dev
 
 #### Molecules
 - [x] FormField
-- [ ] AlertMessage
+- [x] AlertMessage
 - [x] PasswordInput
 
 #### Templates

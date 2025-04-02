@@ -2,15 +2,11 @@
 
 import { NewPasswordForm } from "@/app/components/organisms";
 
-interface ResetPasswordTokenPageProps {
-  params: {
-    token: string;
-  };
-}
-
 export default function ResetPasswordTokenPage({
   params,
-}: ResetPasswordTokenPageProps) {
+}: {
+  params: { token: string };
+}) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <div className="w-[300px] h-[300px] rotate-[74.115deg] aspect-square absolute left-[20px] top-[20px] rounded-full bg-[radial-gradient(84.4%_84.4%_at_27.78%_24.07%,_#BBF7D0_0%,_#22C55E_60.46%,_#15803D_79.62%,_#14532D_100%)]" />

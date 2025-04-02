@@ -34,7 +34,7 @@ yarn dev
 - [x] Implementação de Theme e Style
 - [x] Desenvolvimento de componentes base
 - [x] Sidebar responsiva com animações
-- [ ] Criar fluxo de autenticação:
+- [x] Criar fluxo de autenticação:
   - [x] Tela de Login
   - [x] Tela de Reset Password
   - [x] Tela de New Password

@@ -25,12 +25,9 @@ export function LoginForm() {
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [auth, setAuth] = useAtom(authAtom);
-  const { user, supabase } = useUserSession();
+  const { user } = useUserSession();
   const [showPassword, setShowPassword] = useState(false);
   const [state, formAction] = useFormState(authenticate, initialState);
-
-  console.log(supabase);
-  console.log(user);
 
   const {
     register,
@@ -42,7 +39,6 @@ export function LoginForm() {
 
   const getInfoSession = async () => {
     const session = await getSession();
-    console.log("session ::", session);
     if (!session) return;
     
     setAuth({

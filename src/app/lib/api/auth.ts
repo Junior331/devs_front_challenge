@@ -38,15 +38,17 @@ export const authApi = {
   },
 
   updatePassword: async ({
-    email,
     token,
     password,
   }: {
-    email: string;
     token: string;
     password: string;
   }): Promise<void> => {
     const supabase = createClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser(token);
 
     // // Verificação específica para token de recuperação
     const { error: authError } = await supabase.auth.verifyOtp({
@@ -58,14 +60,10 @@ export const authApi = {
       throw new Error(authError.message || "Token inválido ou expirado");
     }
 
-    // Atualização da senha
-    const { data, error } = await supabase.auth.updateUser({
-      email,
+    const { error } = await supabase.auth.updateUser({
+      email: user?.email,
       password,
     });
-
-    console.log("data ::", data);
-    console.log("error ::", error);
 
     if (error) {
       throw new Error(error.message || "Erro ao atualizar senha");

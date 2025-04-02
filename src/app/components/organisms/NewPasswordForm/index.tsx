@@ -15,7 +15,6 @@ import {
 
 interface NewPasswordFormProps {
   token: string;
-  email: string;
 }
 
 interface PasswordValidation {
@@ -26,7 +25,7 @@ interface PasswordValidation {
   hasSpecialChar: boolean;
 }
 
-export function NewPasswordForm({ token, email }: NewPasswordFormProps) {
+export function NewPasswordForm({ token }: NewPasswordFormProps) {
   const router = useRouter();
   const [passwordValidation, setPasswordValidation] =
     useState<PasswordValidation>({

@@ -2,7 +2,7 @@
 
 ## App
 
-- https://devs_front_challenge.vercel.app/
+- https://devs-front-challenge.vercel.app/auth/login
 
 #### O Produto
 

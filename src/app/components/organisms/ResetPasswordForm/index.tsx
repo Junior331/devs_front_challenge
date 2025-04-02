@@ -17,8 +17,8 @@ export function ResetPasswordForm() {
   const [message, setMessage] = useState({
     show: false,
     type: "success",
-    title: "Instruções Enviadas",
-    message: "Instruções de recuperação de senha enviadas para seu email!",
+    title: "Lorem ipsum",
+    message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
   });
 
   const {

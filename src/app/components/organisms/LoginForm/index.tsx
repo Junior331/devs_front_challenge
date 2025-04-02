@@ -1,15 +1,16 @@
 import { useAtom } from "jotai";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
 
 import { authApi } from "@/app/lib/api/auth";
 import { authAtom } from "@/app/lib/store/auth";
 import { loginSchema, LoginFormValues } from "@/app/lib/validations/auth";
+import Link from "next/link";
 
 export function LoginForm() {
   const router = useRouter();
@@ -120,12 +121,12 @@ export function LoginForm() {
 
       <div className="flex items-center justify-between mt-2">
         <div>
-          <a
+          <Link
             href="/auth/reset-password"
             className="text-zinc-500 font-['Segoe_UI'] text-[16px] font-normal hover:text-blue-500"
           >
             Esqueceu sua senha?
-          </a>
+          </Link>
         </div>
         <div className="flex items-center">
           <input

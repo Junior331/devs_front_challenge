@@ -1,11 +1,8 @@
 import { Eye, EyeOff } from 'lucide-react';
-import { useState, forwardRef, InputHTMLAttributes } from 'react';
+import { useState, forwardRef } from 'react';
 
 import { Input } from '@/app/components/atoms';
-
-interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: boolean;
-}
+import { PasswordInputProps } from './@types';
 
 export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   ({ className, error, ...props }, ref) => {

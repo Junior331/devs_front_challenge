@@ -1,12 +1,4 @@
-import { ReactNode } from 'react';
-
-interface FormFieldProps {
-  label: string;
-  error?: string;
-  htmlFor: string;
-  className?: string;
-  children: ReactNode;
-}
+import { FormFieldProps } from "./@types";
 
 export function FormField({ label, htmlFor, error, children, className }: FormFieldProps) {
   return (

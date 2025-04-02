@@ -12,18 +12,11 @@ import {
   newPasswordSchema,
   NewPasswordFormValues,
 } from "@/app/lib/validations/auth";
-
-interface NewPasswordFormProps {
-  token: string;
-}
-
-interface PasswordValidation {
-  minLength: boolean;
-  hasUppercase: boolean;
-  hasLowercase: boolean;
-  hasNumber: boolean;
-  hasSpecialChar: boolean;
-}
+import {
+  IValidationItem,
+  PasswordValidation,
+  NewPasswordFormProps,
+} from "./@types";
 
 export function NewPasswordForm({ token }: NewPasswordFormProps) {
   const router = useRouter();
@@ -73,13 +66,7 @@ export function NewPasswordForm({ token }: NewPasswordFormProps) {
     updatePasswordMutation.mutate(data.password);
   };
 
-  const ValidationItem = ({
-    isValid,
-    text,
-  }: {
-    isValid: boolean;
-    text: string;
-  }) => (
+  const ValidationItem = ({ isValid, text }: IValidationItem) => (
     <div className="flex w-fit items-center gap-2">
       <div
         className={`w-4 h-4 rounded-full flex items-center justify-center ${

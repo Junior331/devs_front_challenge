@@ -1,9 +1,20 @@
 "use client";
 
-import { NewPasswordForm } from "@/app/components/organisms";
+import { Suspense } from 'react';
 import { useSearchParams } from "next/navigation";
 
+import { NewPasswordForm } from "@/app/components/organisms";
+
 export default function ResetPasswordTokenPage() {
+  return (
+    <Suspense fallback={<div>Carregando...</div>}>
+      <ResetPasswordContent />
+    </Suspense>
+  );
+}
+
+
+function ResetPasswordContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token_hash");
 

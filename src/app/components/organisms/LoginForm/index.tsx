@@ -40,7 +40,7 @@ export function LoginForm() {
   const getInfoSession = async () => {
     const session = await getSession();
     if (!session) return;
-    
+
     setAuth({
       user: session?.user || null,
       token: session?.access_token || null,
@@ -62,12 +62,12 @@ export function LoginForm() {
         state.message || "Falha ao fazer login. Verifique suas credenciais."
       );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, router, user]);
 
   useEffect(() => {
     getInfoSession();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, user]);
 
   const onSubmit = (data: LoginFormValues) => {
@@ -162,17 +162,11 @@ export function LoginForm() {
       </div>
 
       <button
-        type={
-          state.success === null && state.message === "Authenticating..."
-            ? "button"
-            : "submit"
-        }
-        disabled={
-          state.success === null && state.message === "Authenticating..."
-        }
+        disabled={!state.success === false}
+        type={state.success ? "button" : "submit"}
         className="flex cursor-pointer py-4 justify-center items-center gap-2.5 self-stretch rounded-lg bg-blue-500 text-white font-['Segoe_UI'] text-[16px] font-medium mt-4 hover:bg-blue-600 transition-colors"
       >
-        {state.success === null && state.message === "Authenticating..." ? (
+        {state.success ? (
           <div className="flex items-center justify-center">
             <svg
               className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
